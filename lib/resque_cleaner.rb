@@ -178,13 +178,25 @@ module Resque
           Time.parse(self['failed_at']) >= time
         end
 
+        def klass
+          self['class'] || self['payload']['class']
+        end
+
+        def payload
+          self['payload'] || self
+        end
+
+        def active_job?
+          klass =~ /ActiveJob::QueueAdapters::ResqueAdapter::JobWrapper/
+        end
+
+        def job_class
+          active_job? ? payload['args'].first['job_class'] : klass
+        end
+
         # Returns true if the class of the job matches. Otherwise returns false.
         def klass?(klass_or_name)
-          if self["payload"] && self["payload"]["class"]
-            self["payload"]["class"] == klass_or_name.to_s
-          else
-            klass_or_name=="UNKNOWN"
-          end
+          ["UNKNOWN", job_class].include?(klass_or_name)
         end
 
         # Returns true if the exception raised by the failed job matches. Otherwise returns false.
