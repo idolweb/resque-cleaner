@@ -88,9 +88,9 @@
               <% end %>
             </dd>
             <dt>Class</dt>
-            <dd><code><%= job_class(job) %></code></dd>
+            <dd><code><%= job.job_class %></code></dd>
             <dt>Arguments</dt>
-            <dd><pre><%=h show_job_args(arguments(job)) %></pre></dd>
+            <dd><pre><%=h show_job_args(job.job_arguments) %></pre></dd>
             <dt>Exception</dt>
             <dd><code><%= job['exception'] %></code></dd>
             <dt>Error</dt>

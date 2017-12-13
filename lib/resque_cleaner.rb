@@ -194,6 +194,10 @@ module Resque
           active_job? ? payload['args'].first['job_class'] : klass
         end
 
+        def job_arguments
+          active_job? ? payload['args'].first['arguments'] : payload
+        end
+
         # Returns true if the class of the job matches. Otherwise returns false.
         def klass?(klass_or_name)
           ["UNKNOWN", job_class].include?(klass_or_name)
